@@ -1,7 +1,7 @@
 # Reference: https://www.youtube.com/watch?v=BeSJgUTLmk0
 extends KinematicBody2D
 
-const MAX_SPEED = 500
+const MAX_SPEED = 100
 const ACCELERATION = 2000
 var motion = Vector2.ZERO
 
@@ -49,3 +49,10 @@ func _physics_process(delta):
 	# move_and_slide is built into godot (kinematic body)
 	# It returns "leftover" motion after any collision to apply to player.
 	motion = move_and_slide(motion)
+	
+	# Toggles animations to play on key press. Needs more conditions to prevent key holding to start a "moonwalk".
+	if Input.is_action_just_pressed("ui_right"):
+		$AnimationPlayer.play("Walk_Right");
+	elif Input.is_action_just_pressed("ui_left"):
+		$AnimationPlayer.play("Walk_Left");
+		

@@ -14,6 +14,12 @@ config/name="godot-movement"
 run/main_scene="res://World.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=640
+window/size/height=360
+window/stretch/mode="2d"
+
 [physics]
 
 common/enable_pause_aware_picking=true
