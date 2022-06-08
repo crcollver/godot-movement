@@ -5,7 +5,14 @@
 [node name="World" type="Node"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 512, 288 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+limit_left = -523
+limit_top = -401
+limit_right = 1680
+limit_bottom = 901
+editor_draw_limits = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

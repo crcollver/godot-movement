@@ -1,27 +1,16 @@
 # Reference: https://www.youtube.com/watch?v=BeSJgUTLmk0
 extends KinematicBody2D
 
-const MAX_SPEED = 100
+const MAX_SPEED = 250
 const ACCELERATION = 2000
 var motion = Vector2.ZERO
 
 func get_input_axis():
-	var axis = Vector2.ZERO
+	var horizontal = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	var vertical = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 
-	# One side will be "1" or "0", so movement to the right is +1, movement left is -1.
-	# I do not like the casting to int here though.
-	var right = int(Input.is_action_pressed("ui_right")) 
-	var left = int(Input.is_action_pressed("ui_left"))
-	axis.x =  right - left
-
-	# Same principle applies for y.
-	var down = int(Input.is_action_pressed("ui_down")) 
-	var up = int(Input.is_action_pressed("ui_up"))
-	axis.y =  down - up
-	
-	# A vector math thing?
 	# If vector isn't normalized, then diagonal directions would make player move faster.
-	return axis.normalized()
+	return Vector2(horizontal, vertical).normalized()
 
 func apply_friction(amount):
 	# If our motion vector is larger than our friction value, apply friction to our vector.
