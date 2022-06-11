@@ -39,9 +39,32 @@ func _physics_process(delta):
 	# It returns "leftover" motion after any collision to apply to player.
 	motion = move_and_slide(motion)
 	
-	# Toggles animations to play on key press. Needs more conditions to prevent key holding to start a "moonwalk".
-	if Input.is_action_just_pressed("ui_right"):
-		$AnimationPlayer.play("Walk_Right");
-	elif Input.is_action_just_pressed("ui_left"):
+	# Toggles animations to play on key press.
+	if Input.is_action_pressed("ui_left") and !Input.is_action_pressed("ui_down") and !Input.is_action_pressed("ui_up"):
 		$AnimationPlayer.play("Walk_Left");
+
+	elif Input.is_action_pressed("ui_right") and !Input.is_action_pressed("ui_down") and !Input.is_action_pressed("ui_up"):
+		$AnimationPlayer.play("Walk_Right");
+
+
+	if Input.is_action_pressed("ui_up"):
+		if Input.is_action_pressed("ui_left"):
+			$AnimationPlayer.play("Walk_Upleft");
+
+		elif Input.is_action_pressed("ui_right"):
+			$AnimationPlayer.play("Walk_Upright");
+
+		else:
+			$AnimationPlayer.play("Walk_Up");
+
+
+	if Input.is_action_pressed("ui_down"):
+		if Input.is_action_pressed("ui_left"):
+			$AnimationPlayer.play("Walk_Downleft");
+
+		elif Input.is_action_pressed("ui_right"):
+			$AnimationPlayer.play("Walk_Downright");
+
+		else:
+			$AnimationPlayer.play("Walk_Down");
 		
