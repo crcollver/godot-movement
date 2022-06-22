@@ -1,9 +1,10 @@
 # Reference: https://www.youtube.com/watch?v=BeSJgUTLmk0
 extends KinematicBody2D
 
-const MAX_SPEED = 250
+const MAX_SPEED = 150
 const ACCELERATION = 2000
 var motion = Vector2.ZERO
+var mouse_angle = 0
 
 func get_input_axis():
 	var horizontal = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -39,32 +40,12 @@ func _physics_process(delta):
 	# It returns "leftover" motion after any collision to apply to player.
 	motion = move_and_slide(motion)
 	
-	# Toggles animations to play on key press.
-	if Input.is_action_pressed("ui_left") and !Input.is_action_pressed("ui_down") and !Input.is_action_pressed("ui_up"):
-		$AnimationPlayer.play("Walk_Left");
 
-	elif Input.is_action_pressed("ui_right") and !Input.is_action_pressed("ui_down") and !Input.is_action_pressed("ui_up"):
-		$AnimationPlayer.play("Walk_Right");
-
-
-	if Input.is_action_pressed("ui_up"):
-		if Input.is_action_pressed("ui_left"):
-			$AnimationPlayer.play("Walk_Upleft");
-
-		elif Input.is_action_pressed("ui_right"):
-			$AnimationPlayer.play("Walk_Upright");
-
-		else:
-			$AnimationPlayer.play("Walk_Up");
-
-
-	if Input.is_action_pressed("ui_down"):
-		if Input.is_action_pressed("ui_left"):
-			$AnimationPlayer.play("Walk_Downleft");
-
-		elif Input.is_action_pressed("ui_right"):
-			$AnimationPlayer.play("Walk_Downright");
-
-		else:
-			$AnimationPlayer.play("Walk_Down");
+# http://kidscancode.org/godot_recipes/2d/8_direction/
+func _process(_delta):
+	var mouse = get_local_mouse_position()
+	mouse_angle = stepify(mouse.angle(), PI/4) / (PI / 4)
+	mouse_angle = wrapi(int(mouse_angle), 0, 8)
+	$AnimationPlayer.play("walk_" + str(mouse_angle))
+		
 		

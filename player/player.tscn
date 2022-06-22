@@ -6,8 +6,42 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 32.0
 
+[sub_resource type="Animation" id=8]
+resource_name = "walk_0"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 14, 15, 16, 17 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "walk_1"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 18, 19, 20, 21, 22, 23 ]
+}
+
 [sub_resource type="Animation" id=4]
-resource_name = "Walk_Down"
+resource_name = "walk_2"
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -24,7 +58,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=5]
-resource_name = "Walk_Downleft"
+resource_name = "walk_3"
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -40,25 +74,8 @@ tracks/0/keys = {
 "values": [ 35, 34, 33, 32, 31, 30 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Walk_Downright"
-length = 0.6
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 18, 19, 20, 21, 22, 23 ]
-}
-
 [sub_resource type="Animation" id=7]
-resource_name = "Walk_Left"
+resource_name = "walk_4"
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -74,42 +91,8 @@ tracks/0/keys = {
 "values": [ 41, 40, 39, 38, 37, 36 ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "Walk_Right"
-length = 0.6
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 12, 13, 14, 15, 16, 17 ]
-}
-
-[sub_resource type="Animation" id=3]
-resource_name = "Walk_Up"
-length = 0.6
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4, 5 ]
-}
-
 [sub_resource type="Animation" id=9]
-resource_name = "Walk_Upleft"
+resource_name = "walk_5"
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -125,8 +108,25 @@ tracks/0/keys = {
 "values": [ 47, 46, 45, 44, 43, 42 ]
 }
 
+[sub_resource type="Animation" id=3]
+resource_name = "walk_6"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
+}
+
 [sub_resource type="Animation" id=10]
-resource_name = "Walk_Upright"
+resource_name = "walk_7"
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -149,17 +149,17 @@ script = ExtResource( 2 )
 texture = ExtResource( 1 )
 hframes = 6
 vframes = 8
-frame = 35
+frame = 6
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Walk_Down = SubResource( 4 )
-anims/Walk_Downleft = SubResource( 5 )
-anims/Walk_Downright = SubResource( 6 )
-anims/Walk_Left = SubResource( 7 )
-anims/Walk_Right = SubResource( 8 )
-anims/Walk_Up = SubResource( 3 )
-anims/Walk_Upleft = SubResource( 9 )
-anims/Walk_Upright = SubResource( 10 )
+anims/walk_0 = SubResource( 8 )
+anims/walk_1 = SubResource( 6 )
+anims/walk_2 = SubResource( 4 )
+anims/walk_3 = SubResource( 5 )
+anims/walk_4 = SubResource( 7 )
+anims/walk_5 = SubResource( 9 )
+anims/walk_6 = SubResource( 3 )
+anims/walk_7 = SubResource( 10 )
