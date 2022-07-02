@@ -1,16 +1,22 @@
 # Reference: https://www.youtube.com/watch?v=BeSJgUTLmk0
 extends KinematicBody2D
+export (PackedScene) var Projectile
 
 const MAX_SPEED = 150
 const ACCELERATION = 2000
+var facing = Vector2()
 var motion = Vector2.ZERO
 var mouse_angle = 0
+
+# http://kidscancode.org/godot_recipes/2d/8_direction/
+func map_angle_to_index(angle):
+	var stepped_angle = stepify(angle, PI/4) / (PI / 4)
+	return wrapi(int(stepped_angle), 0, 8)
 
 func get_input_axis():
 	var horizontal = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	var vertical = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 
-	# If vector isn't normalized, then diagonal directions would make player move faster.
 	return Vector2(horizontal, vertical).normalized()
 
 func apply_friction(amount):
@@ -27,25 +33,46 @@ func apply_movement(acceleration):
 	motion += acceleration
 	motion = motion.clamped(MAX_SPEED)
 
-# https://godotengine.org/qa/38365/what-the-difference-between-_physicsprocess-and-_process
+func play_walk_animation():
+	var LEFT = Input.is_action_pressed("ui_left")
+	var RIGHT = Input.is_action_pressed("ui_right")
+	var UP = Input.is_action_pressed("ui_up")
+	var DOWN = Input.is_action_pressed("ui_down")
+	
+	var direction = get_input_axis()
+	
+	# Only change the animation if an input key has been pressed.
+	# Otherwise the animation would always default to right facing.
+	if LEFT || RIGHT || UP || DOWN:
+		facing = direction
+		
+	var animation = "walk_" + str(map_angle_to_index(facing.angle()))
+	if($AnimationPlayer.assigned_animation != animation):
+		$AnimationPlayer.play(animation)
+
+func shoot():
+	var mouse = get_local_mouse_position()
+	$AnimationPlayer.play("walk_" + str(map_angle_to_index(mouse.angle())))
+	
+	var projectile = Projectile.instance()
+	owner.add_child(projectile)
+	$Pivot.look_at(get_global_mouse_position())
+	projectile.transform = $Pivot/ProjectileSpawner.global_transform
+
 func _physics_process(delta):
 	var axis = get_input_axis()
-	# Vector2.ZERO means if there is no input?
-	# If so then apply any sort of friction calculation.
+	
+	# If there is no movement vector, apply friction to stop player.
 	if axis == Vector2.ZERO:
 		apply_friction(ACCELERATION * delta)
 	else:
 		apply_movement(axis * ACCELERATION * delta)
-	# move_and_slide is built into godot (kinematic body)
-	# It returns "leftover" motion after any collision to apply to player.
+
 	motion = move_and_slide(motion)
 	
-
-# http://kidscancode.org/godot_recipes/2d/8_direction/
 func _process(_delta):
-	var mouse = get_local_mouse_position()
-	mouse_angle = stepify(mouse.angle(), PI/4) / (PI / 4)
-	mouse_angle = wrapi(int(mouse_angle), 0, 8)
-	$AnimationPlayer.play("walk_" + str(mouse_angle))
-		
-		
+	# Until we add an AnimationTree, the walk animation changes back too fast after shooting.
+	# play_walk_animation()
+	
+	if Input.is_action_just_pressed("player_shoot"):
+		shoot()
